@@ -6,13 +6,13 @@ import { Port } from "./shared/config";
 import { AbboApi } from "./api";
 import { PlanHandlers } from "./features/plan/handlers";
 import { PlanRepoMemory } from "./features/plan/repo.memory";
-import { HealtHandlers } from "./features/health/handlers";
+import { HealthHandlers } from "./features/health/handlers";
 import { PlanService } from "./features/plan/service";
 
 const ApiLive = HttpApiBuilder.layer(AbboApi, {
   openapiPath: "/openapi.json",
 }).pipe(
-  Layer.provide(HealtHandlers),
+  Layer.provide(HealthHandlers),
   Layer.provide(PlanHandlers),
   Layer.provide(PlanService.layer),
   Layer.provide(PlanRepoMemory),
