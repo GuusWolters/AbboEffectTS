@@ -6,16 +6,15 @@ import { Port } from "./shared/config";
 import { AbboApi } from "./api";
 import { PlanHandlers } from "./features/plan/handlers";
 import { PlanRepoMemory } from "./features/plan/repo.memory";
-
-const PubliekHandlers = HttpApiBuilder.group(AbboApi, "publiek", (handlers) =>
-  handlers.handle("health", () => Effect.succeed({ status: "ok" as const })),
-);
+import { HeatlHandlers } from "./features/health/handlers";
+import { PlanService } from "./features/plan/service";
 
 const ApiLive = HttpApiBuilder.layer(AbboApi, {
   openapiPath: "/openapi.json",
 }).pipe(
-  Layer.provide(PubliekHandlers),
+  Layer.provide(HeatlHandlers),
   Layer.provide(PlanHandlers),
+  Layer.provide(PlanService.layer),
   Layer.provide(PlanRepoMemory),
 );
 
