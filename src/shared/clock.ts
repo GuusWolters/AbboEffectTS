@@ -7,10 +7,10 @@ class Clock extends Context.Service<
   }
 >()("abbo/clockService") {}
 
-export const ClockService = Layer.succeed(Clock, {
+export const ClockLive = Layer.succeed(Clock, {
   now: Effect.sync(() => new Date()),
 });
 
-export const ClockServiceTest = Layer.succeed(Clock, {
+export const ClockTest = Layer.succeed(Clock, {
   now: Effect.succeed(new Date("2026-01-01T00:00:00Z")),
 });

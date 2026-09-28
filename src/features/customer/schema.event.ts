@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { CustomerId } from "./schema.customer";
+import { CustomerId } from "./values";
 
 export const EventId = Schema.String.pipe(
   Schema.check(Schema.isPattern(/^ev_[a-z0-9_]+$/)),
