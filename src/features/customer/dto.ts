@@ -1,6 +1,6 @@
-import { Schema } from "effect";
-import { Customer, CustomerName } from "./schema.customer";
-import { CustomerId, Email } from "./values";
+import { Effect, Schema } from "effect";
+import { Customer } from "./schema.customer";
+import { CustomerId, Email, CustomerName, Status } from "./values";
 import { PlanCode } from "../plan/schema";
 
 // De klant zoals de client hem ziet: zonder accountId
@@ -28,3 +28,10 @@ export const UpdateCustomer = Schema.Struct({
   name: Schema.optional(CustomerName),
   email: Schema.optional(Email),
 });
+
+export const ListCustomer = {
+  plan: Schema.optional(PlanCode),
+  status: Schema.optional(Status),
+  limit: Limit.pipe(Schema.withDecodingDefaultKey(Effect.succeed("20"))),
+  cursor: Schema.optional(CustomerId),
+};

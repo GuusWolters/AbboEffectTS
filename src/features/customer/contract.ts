@@ -1,7 +1,4 @@
-import { Effect, Schema } from "effect";
 import { HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
-import { PlanCode } from "../plan/schema";
-import { Status } from "./schema.customer";
 import { CustomerId } from "./values";
 import {
   CustomerCancelled,
@@ -12,7 +9,7 @@ import {
   CreateCustomer,
   CustomerPage,
   CustomerResponse,
-  Limit,
+  ListCustomer,
   UpdateCustomer,
 } from "./dto";
 // import { InvalidUpgrade } from "../plan/errors";
@@ -21,12 +18,7 @@ import {
 export class CustomerGroup extends HttpApiGroup.make("customers")
   .add(
     HttpApiEndpoint.get("list", "/", {
-      query: {
-        plan: Schema.optional(PlanCode),
-        status: Schema.optional(Status),
-        limit: Limit.pipe(Schema.withDecodingDefaultKey(Effect.succeed("20"))),
-        cursor: Schema.optional(CustomerId),
-      },
+      query: ListCustomer,
       success: CustomerPage,
     }),
     HttpApiEndpoint.post("create", "/", {

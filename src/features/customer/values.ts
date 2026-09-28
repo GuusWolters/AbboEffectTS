@@ -17,3 +17,12 @@ export const Email = Schema.String.pipe(
   Schema.brand("Email"),
 );
 export type Email = typeof Email.Type;
+
+export const CustomerName = Schema.Trim.pipe(
+  Schema.check(Schema.isMinLength(2), Schema.isMaxLength(100)),
+  Schema.brand("CustomerName"),
+);
+export type CustomerName = typeof CustomerName.Type;
+
+export const Status = Schema.Literals(["active", "canceled"]);
+export type Status = typeof Status.Type;
