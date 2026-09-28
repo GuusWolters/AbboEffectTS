@@ -1,13 +1,8 @@
 import { Effect, Schema } from "effect";
 import { HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
 import { PlanCode } from "../plan/schema";
-import {
-  Customer,
-  CustomerId,
-  CustomerName,
-  Email,
-  Status,
-} from "./schema.customer";
+import { Customer, CustomerName, Status } from "./schema.customer";
+import { CustomerId, Email } from "./values";
 import {
   CustomerCancelled,
   CustomerNotFound,
@@ -82,7 +77,8 @@ export class CustomerGroup extends HttpApiGroup.make("customers")
     }),
     HttpApiEndpoint.get("events", "/:id/events", {
       params: { id: CustomerId },
-      success: Event,
+      success: Schema.Array(Event),
+      error: [CustomerNotFound],
     }),
   )
   .prefix("/customers") {}

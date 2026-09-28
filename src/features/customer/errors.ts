@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { CustomerId, Email } from "./schema.customer";
+import { CustomerId, Email } from "./values";
 
 export class CustomerCancelled extends Schema.TaggedError<CustomerCancelled>()(
   "CustomerCancelled",
