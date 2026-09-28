@@ -1,6 +1,6 @@
 import { HttpApi } from "effect/unstable/httpapi";
-import { PlanGroup } from "./features/plan/api";
-import { HealthGroup } from "./features/health/api";
+import { PlanGroup } from "./features/plan/contract";
+import { HealthGroup } from "./features/health/contract";
 
 export class AbboApi extends HttpApi.make("abbo")
   .add(HealthGroup)

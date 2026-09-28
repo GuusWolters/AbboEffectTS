@@ -1,5 +1,5 @@
 import { HttpApiBuilder } from "effect/unstable/httpapi";
-import { AbboApi } from "../../api";
+import { AbboApi } from "../../contract";
 import { Effect } from "effect";
 import { PlanService } from "./service";
 

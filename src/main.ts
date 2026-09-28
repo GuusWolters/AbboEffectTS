@@ -3,7 +3,7 @@ import { HttpApiBuilder, HttpApiScalar } from "effect/unstable/httpapi";
 import { HttpRouter } from "effect/unstable/http";
 import { BunHttpServer, BunRuntime } from "@effect/platform-bun";
 import { Port } from "./shared/config";
-import { AbboApi } from "./api";
+import { AbboApi } from "./contract";
 import { PlanHandlers } from "./features/plan/handlers";
 import { PlanRepoMemory } from "./features/plan/repo.memory";
 import { HealthHandlers } from "./features/health/handlers";
