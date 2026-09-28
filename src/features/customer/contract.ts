@@ -1,41 +1,22 @@
 import { Effect, Schema } from "effect";
 import { HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
 import { PlanCode } from "../plan/schema";
-import { Customer, CustomerName, Status } from "./schema.customer";
-import { CustomerId, Email } from "./values";
+import { Status } from "./schema.customer";
+import { CustomerId } from "./values";
 import {
   CustomerCancelled,
   CustomerNotFound,
   EmailAlreadyTaken,
 } from "./errors";
-import { InvalidUpgrade } from "../plan/errors";
-import { Event } from "./schema.event";
-
-// De klant zoals de client hem ziet: zonder accountId
-const { accountId: _accountId, ...publicFields } = Customer.fields;
-export const CustomerResponse = Schema.Struct(publicFields);
-
-// Eén pagina uit de lijst; next is null als er geen volgende pagina is
-export const CustomerPage = Schema.Struct({
-  data: Schema.Array(CustomerResponse),
-  next: Schema.NullOr(CustomerId),
-});
-
-// Query-parameters zijn strings: omzetten naar een getal, dan controleren
-const Limit = Schema.NumberFromString.pipe(
-  Schema.check(Schema.isInt(), Schema.isBetween({ minimum: 1, maximum: 100 })),
-);
-
-const CreateCustomer = Schema.Struct({
-  name: CustomerName,
-  email: Email,
-  plan: Schema.optional(PlanCode),
-});
-
-const UpdateCustomer = Schema.Struct({
-  name: Schema.optional(CustomerName),
-  email: Schema.optional(Email),
-});
+import {
+  CreateCustomer,
+  CustomerPage,
+  CustomerResponse,
+  Limit,
+  UpdateCustomer,
+} from "./dto";
+// import { InvalidUpgrade } from "../plan/errors";
+// import { Event } from "./schema.event";
 
 export class CustomerGroup extends HttpApiGroup.make("customers")
   .add(
@@ -64,21 +45,21 @@ export class CustomerGroup extends HttpApiGroup.make("customers")
       error: [CustomerNotFound, CustomerCancelled, EmailAlreadyTaken],
       payload: UpdateCustomer,
     }),
-    HttpApiEndpoint.post("upgrade", "/:id/upgrade", {
-      params: { id: CustomerId },
-      success: CustomerResponse,
-      error: [CustomerNotFound, CustomerCancelled, InvalidUpgrade],
-      payload: Schema.Struct({ plan: PlanCode }),
-    }),
-    HttpApiEndpoint.post("cancel", "/:id/cancel", {
-      params: { id: CustomerId },
-      success: CustomerResponse,
-      error: [CustomerNotFound, CustomerCancelled],
-    }),
-    HttpApiEndpoint.get("events", "/:id/events", {
-      params: { id: CustomerId },
-      success: Schema.Array(Event),
-      error: [CustomerNotFound],
-    }),
+    // HttpApiEndpoint.post("upgrade", "/:id/upgrade", {
+    //   params: { id: CustomerId },
+    //   success: CustomerResponse,
+    //   error: [CustomerNotFound, CustomerCancelled, InvalidUpgrade],
+    //   payload: Schema.Struct({ plan: PlanCode }),
+    // }),
+    // HttpApiEndpoint.post("cancel", "/:id/cancel", {
+    //   params: { id: CustomerId },
+    //   success: CustomerResponse,
+    //   error: [CustomerNotFound, CustomerCancelled],
+    // }),
+    // HttpApiEndpoint.get("events", "/:id/events", {
+    //   params: { id: CustomerId },
+    //   success: Schema.Array(Event),
+    //   error: [CustomerNotFound],
+    // }),
   )
   .prefix("/customers") {}
